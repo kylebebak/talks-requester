@@ -25,7 +25,6 @@ Para estar seguro que se instaló bien, reinicia Sublime Text (ciérrala y ábre
   + Colecciones de peticiones y navegación
   + Pestañas de respuesta
   + Historial de peticiones
-  + Guardando peticiones a su requester file
 - Pruebas
   + Test Runner
     + Sintaxis
@@ -42,22 +41,50 @@ Para estar seguro que se instaló bien, reinicia Sublime Text (ciérrala y ábre
   + <https://developer.twitter.com/en/docs/api-reference-index>
   + Explorando hyperlinked APIs (HATEOAS)
 - Bonus: GraphQL support
+  + Guardando peticiones a su requester file
 
 ~~~py
+## test runner
 ###env
-from requests_oauthlib import OAuth1
-
-API_KEY = ''
-API_SECRET = ''
-ACCESS_TOKEN = ''
-ACCESS_TOKEN_SECRET = ''
-
-auth = OAuth1(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+base_url = 'https://jsonplaceholder.typicode.com'
+prop = 'status_code'
 ###env
 
+# first request
+get(base_url + '/posts')
+assert {prop: 200, 'encoding': 'utf-8'}
+
+# second request, with no assertion
+get(base_url + '/profile')
+
+# third request
+get(base_url + '/comments')
+assert {'status_code': 500}
+
+
+get('https://jsonplaceholder.typicode.com/posts')
+assert {
+    'json_schema': {
+        "type": "array",
+        "items": {
+            "type": "object",
+            "properties": {
+                "body": {"type": "string"},
+                "id": {"type": "number"},
+                "title": {"type": "string"},
+                "userId": {"type": "string"}
+            }
+        }
+    }
+}
+
+
+
+## twitter
 get('https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=stackoverflow&count=1000', auth=auth)
 
 
+## graphql
 get('ipinfo.io/ip')
 
 requests.get('https://api.graphloc.com/graphql', gql="""
