@@ -46,15 +46,25 @@ Para estar seguro que se instaló bien, reinicia Sublime Text (ciérrala y ábre
 ~~~py
 ###env
 from requests_oauthlib import OAuth1
+
+API_KEY = ''
+API_SECRET = ''
+ACCESS_TOKEN = ''
+ACCESS_TOKEN_SECRET = ''
+
 auth = OAuth1(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 ###env
 
 get('https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=stackoverflow&count=1000', auth=auth)
-~~~
 
-~~~py
-requests.get('https://api.graphloc.com/graphql')
-# curl ipinfo.io/ip
+
+get('ipinfo.io/ip')
+
+requests.get('https://api.graphloc.com/graphql', gql="""
+{
+
+}
+""")
 ~~~
 
 
